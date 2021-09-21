@@ -1,0 +1,16 @@
+﻿@model Wolf_Wolf_TicketSales.Models.BuyTicketsModel;
+
+@{string error = TempData["BuyError"] as string; }
+
+@{
+    if (!string.IsNullOrEmpty(error))
+    {
+        <h3 class="alert-danger">@error</h3>
+    }
+}
+<h2>@Model.ConcertName @@ @Model.Location</h2>
+<form asp-action="BuyTickets" method="post">
+    <h4>How many tickets you want ?</h4> <input type="number" name="tickets" value="" />
+    <input type="hidden" name="concertId" value="@Model.ConcertId" />
+    <input type="submit" name="Buy" value="Buy" />
+</form>

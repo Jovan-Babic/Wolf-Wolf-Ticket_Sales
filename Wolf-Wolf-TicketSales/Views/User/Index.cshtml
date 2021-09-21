@@ -1,0 +1,85 @@
+﻿@model Wolf_Wolf_TicketSales.Models.UserTicketsWithOffersModel
+
+@{
+    string active = "";
+
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserTickets.First().Concert)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserTickets.First().Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserTickets.First().TicketsOwned)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                foreach (var item in Model.UserTickets)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Concert)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Location)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TicketsOwned)
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+
+<div class="container" style="margin-top:20%; margin-left:17%;">
+    <div class="row">
+        <h3 style="margin-left:25%;"> New concerts </h3>
+    </div>
+    <div class='row' style="font-family:cursive;">
+        <div class='col-md-8'>
+            <div class="carousel slide media-carousel" id="media">
+                <div class="carousel-inner">
+                    @{int cnt = Model.ConcertOffers.Count % 3 == 0 ? Model.ConcertOffers.Count / 3 : Model.ConcertOffers.Count / 3 + 1 ; }
+                    @for (int i = 0; i < cnt; i++)
+                    {
+                        active = i > 0 ? "" : "active";
+                        <div class="item  @active">
+                            <div class="row">
+                                @for (int j = 0; j < 3; j++)
+                                {
+                                    int index = (i * 3) + j;
+
+                                    if (index > Model.ConcertOffers.Count - 1)
+                                    {
+                                        <div class="col-md-4">                                            
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        var concert = Model.ConcertOffers[index];
+                                        <div class="col-md-4 ">
+                                            <a class="thumbnail custom-link alert-primary" href="/user/buytickets?concertId=@concert.ConcertId"> @concert.ConcertName (@concert.ConcertLocation) <p class=" alert-danger">@concert.TicketsAvailable tickets left</p></a>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <a data-slide="prev" href="#media" class="left carousel-control">‹</a>
+                <a data-slide="next" href="#media" class="right carousel-control">›</a>
+            </div>
+        </div>
+    </div>
+</div>
